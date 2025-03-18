@@ -21,11 +21,11 @@ services:
       - .env
     labels:
       - traefik.enable=true
-      # - traefik.http.routers.api.rule=Host(`monitor.lucasvallejo.cloud`)
+      # - traefik.http.routers.api.rule=Host(${HOSTNAME})
       # - traefik.http.routers.api.service=api@internal
       - traefik.http.routers.api-https.tls.certresolver=cloudflare
       - traefik.http.routers.api-https.entrypoints=websecure
-      - traefik.http.routers.api-https.rule=Host(`monitor.lucasvallejo.cloud`)
+      - traefik.http.routers.api-https.rule=Host(`${HOSTNAME})}`)
       - traefik.http.routers.api-https.service=api@internal
 networks:
   frontend:

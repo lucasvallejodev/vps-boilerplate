@@ -96,7 +96,7 @@ docker-compose up -d
 ## Accessing Services
 
 - Traefik Dashboard: `https://monitor.yourdomain.com`
-- Nginx: `https://notes.yourdomain.com`
+- Nginx: `https://nginx.yourdomain.com`
 - Open Web UI: `https://ai.yourdomain.com`
 
 ## Encryption

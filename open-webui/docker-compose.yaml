@@ -7,6 +7,8 @@ services:
     networks:
       - frontend
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - ./open-webui-local:/app/backend/data
     labels:
@@ -14,7 +16,7 @@ services:
       - traefik.http.routers.openwebui-https.tls=true
       - traefik.http.routers.openwebui-https.tls.certresolver=cloudflare
       - traefik.http.routers.openwebui-https.entrypoints=websecure
-      - traefik.http.routers.openwebui-https.rule=Host(`ai.lucasvallejo.cloud`)
+      - traefik.http.routers.openwebui-https.rule=Host(`${HOSTNAME}`)
     environment:
       OLLAMA_BASE_URLS: http://ollama:11434
 networks:

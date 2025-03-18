@@ -3,6 +3,8 @@ services:
   nginx:
     container_name: nginx-demo
     image: nginx:latest
+    env_file:
+      - .env
     networks:
       - frontend
     labels:
@@ -10,7 +12,7 @@ services:
       - traefik.http.routers.nginx-https.tls=true
       - traefik.http.routers.nginx-https.tls.certresolver=cloudflare
       - traefik.http.routers.nginx-https.entrypoints=websecure
-      - traefik.http.routers.nginx-https.rule=Host(`notes.lucasvallejo.cloud`)
+      - traefik.http.routers.nginx-https.rule=Host(`${HOSTNAME}`)
     restart: unless-stopped
 networks:
   frontend:
