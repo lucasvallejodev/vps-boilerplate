@@ -1,0 +1,32 @@
+---
+services:
+  reverse-proxy:
+    container_name: traefik
+    image: traefik:v3.3
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./data/certs/:/var/traefik/certs/:rw
+    # environment:
+    #   - CF_DNS_API_TOKEN=E0QE_xerbNiKRlVHLMg_R-GkfgaMRgoxlYUSZzb9
+    networks:
+      - frontend
+    restart: unless-stopped
+    env_file:
+      - .env
+    labels:
+      - traefik.enable=true
+      # - traefik.http.routers.api.rule=Host(`monitor.lucasvallejo.cloud`)
+      # - traefik.http.routers.api.service=api@internal
+      - traefik.http.routers.api-https.tls.certresolver=cloudflare
+      - traefik.http.routers.api-https.entrypoints=websecure
+      - traefik.http.routers.api-https.rule=Host(`monitor.lucasvallejo.cloud`)
+      - traefik.http.routers.api-https.service=api@internal
+networks:
+  frontend:
+    external: true

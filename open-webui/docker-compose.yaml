@@ -1,0 +1,22 @@
+---
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui
+    hostname: openwebui
+    networks:
+      - frontend
+    restart: unless-stopped
+    volumes:
+      - ./open-webui-local:/app/backend/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.openwebui-https.tls=true
+      - traefik.http.routers.openwebui-https.tls.certresolver=cloudflare
+      - traefik.http.routers.openwebui-https.entrypoints=websecure
+      - traefik.http.routers.openwebui-https.rule=Host(`ai.lucasvallejo.cloud`)
+    environment:
+      OLLAMA_BASE_URLS: http://ollama:11434
+networks:
+  frontend:
+    external: true
